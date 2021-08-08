@@ -1,0 +1,31 @@
+<div class="container" *ngIf="loadedCampaignObject else elseBlock">
+   <div class="card">
+      <div class="card-body">
+         <div class="card-header">
+            <app-qr></app-qr>
+         </div>
+         <div class="card-title">
+            {{loadedCampaignObject.name}}
+         </div>
+         <div class="card-body">
+            <p>{{loadedCampaignObject.description}}</p>
+            <p>You can access the links of this campaign, by going to http://192.168.1.41/{{loadedCampaignObject.representationLink}}</p>
+         </div>
+         <div class="card-footer">
+            <a *ngIf="edit==false" class="btn btn-primary"(click)="editCampaign()">Edit</a>
+            <p *ngIf="edit"> </p>
+            <div *ngIf="edit">
+               <label for="name">Campaign name: </label>
+               <input id="name" [(ngModel)]="loadedCampaignObject.name" placeholder="name">
+               <label for="description">Description: </label>
+               <input id="description" [(ngModel)]="loadedCampaignObject.description" placeholder="description">
+               <label for="links">Links: </label>
+               <textarea id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
+               <a class="btn btn-primary"(click)="saveCampaign()">Save</a>
+               <a class="btn btn-danger"(click)="revertCampaign()">Revert changes</a>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<ng-template #elseBlock>loading</ng-template>

@@ -1,0 +1,13 @@
+<div>
+    <label for="name">Campaign name: </label>
+    <input id="name" [(ngModel)]="campaign.name" placeholder="name">
+    <label for="description">Description: </label>
+    <input id="description" [(ngModel)]="campaign.description" placeholder="description">
+    <label for="link">Representation Link: </label>
+    <input id="link" [(ngModel)]="campaign.representationLink" placeholder="link">
+    <label for="links">Links: </label>
+    <textarea id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
+    <a class="btn btn-primary"(click)="createCampaign()">Create</a>
+    <a class="btn btn-danger"(click)="clearAll()">Reset</a>
+</div>
+<app-qr *ngIf="loadQRComponent"></app-qr>

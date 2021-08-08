@@ -1,0 +1,6 @@
+<div *ngIf="campaignList else elseBlock">
+    <a class="btn btn-primary" href="campaigns/create">Create</a>
+    <li *ngFor="let campaign of campaignList">{{campaign.id}}</li>
+</div>
+<ng-template #elseBlock>loading</ng-template>
+<!--<ng-template #elseBlock><p-progressBar mode="indeterminate"></p-progressBar></ng-template>-->
