@@ -1,4 +1,11 @@
+<app-navbar></app-navbar>
 <div class="container" *ngIf="loadedCampaignObject else elseBlock">
+   <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/campaigns">Campaigns</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{loadedCampaignObject.name}}</li>
+      </ol>
+    </nav>
    <div class="card">
       <div class="card-body">
          <div class="card-header">
@@ -9,23 +16,26 @@
          </div>
          <div class="card-body">
             <p>{{loadedCampaignObject.description}}</p>
-            <p>You can access the links of this campaign, by going to http://192.168.1.41/{{loadedCampaignObject.representationLink}}</p>
+            <p><span style="color:dimgrey"><i class="fa fa-info-circle"></i></span> You can access the links of this campaign, by going to http://192.168.1.41/{{loadedCampaignObject.representationLink}}</p>
+            <p>This campaign has {{loadedCampaignObject.links.length}} links</p>
+            <a *ngIf="edit==false" class="btn btn-primary"(click)="editCampaign()"><i class="fa fa-wrench"></i> Edit</a> 
+            <span>&nbsp;</span>
+            <a *ngIf="edit==false" class="btn btn-danger"(click)="editCampaign()"><i class="fa fa-trash"></i> Delete</a>
          </div>
-         <div class="card-footer">
-            <a *ngIf="edit==false" class="btn btn-primary"(click)="editCampaign()">Edit</a>
+         <div *ngIf="edit"class="card-footer">
             <p *ngIf="edit"> </p>
-            <div *ngIf="edit">
+            <div class="container-fluid mb-2" *ngIf="edit">
                <label for="name">Campaign name: </label>
-               <input id="name" [(ngModel)]="loadedCampaignObject.name" placeholder="name">
+               <input class="form-control" id="name" [(ngModel)]="loadedCampaignObject.name" placeholder="name">
                <label for="description">Description: </label>
-               <input id="description" [(ngModel)]="loadedCampaignObject.description" placeholder="description">
+               <input class="form-control" id="description" [(ngModel)]="loadedCampaignObject.description" placeholder="description">
                <label for="links">Links: </label>
-               <textarea id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
-               <a class="btn btn-primary"(click)="saveCampaign()">Save</a>
+               <textarea rows="4" class="form-control" id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
+               </div>
+               <a class="btn btn-primary"(click)="saveCampaign()">Save</a><span>&nbsp;</span>
                <a class="btn btn-danger"(click)="revertCampaign()">Revert changes</a>
-            </div>
          </div>
       </div>
    </div>
 </div>
-<ng-template #elseBlock>loading</ng-template>
+<ng-template #elseBlock><p-progressBar mode="indeterminate"></p-progressBar></ng-template>

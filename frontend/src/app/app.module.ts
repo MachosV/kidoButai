@@ -17,6 +17,11 @@ import { CampaignUpdateComponent } from './campaign-update/campaign-update.compo
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AuthInterceptor } from './injectables/authenticator';
 import { NavbarComponent } from './navbar/navbar.component';
+import { TableModule } from 'primeng/table';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {DataViewModule} from 'primeng/dataview';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +36,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    DataViewModule,
+    ProgressBarModule,
+    TableModule,
     CardModule,
     HttpClientModule,
     QrCodeModule,

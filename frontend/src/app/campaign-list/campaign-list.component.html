@@ -1,6 +1,53 @@
-<div *ngIf="campaignList else elseBlock">
-    <a class="btn btn-primary" href="campaigns/create">Create</a>
-    <li *ngFor="let campaign of campaignList">{{campaign.id}}</li>
+<app-navbar></app-navbar>
+
+<div class="container-fluid" *ngIf="campaignList else elseBlock">
+    <h4>My Campaigns</h4>
+    <!--<div class="container">
+        <p-table #campaignListTable [value]="campaignList" [globalFilterFields]="['name']">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name">Name <span style="color:dimgrey"><i class="fa fa-sort"></i></span></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-campaign>
+                <tr>
+                        <td>{{campaign.name}}</td>
+                        <td><a role="button" class="btn btn-primary" href="campaigns/{{campaign.id}}"><i class="fa fa-eye"></i> View</a></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <p>Showing <b>{{campaignListTable.totalRecords}}</b> campaigns</p>
+            </ng-template>
+        </p-table>
+    </div>-->
+
+    <div class="container">
+        <p-dataView #dv [value]="campaignList" filterBy="name">
+            <ng-template pTemplate="header">
+                <!--<input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)"> -->
+            </ng-template>
+            <ng-template let-campaign pTemplate="listItem">
+                <div class="card container mb-2">
+                    <div class="card-body">
+                        <div class="card-title mt-2">
+                            <p><b>{{campaign.name}}</b></p>
+                            <div class="text-center">
+                                <a role="button" class="btn btn-primary" href="campaigns/{{campaign.id}}"><i class="fa fa-eye"></i>
+                                    View
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>{{campaign.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <p>Showing <b>{{campaignList.length}}</b> campaigns</p>
+            </ng-template>
+        </p-dataView>
+    </div>
 </div>
-<ng-template #elseBlock>loading</ng-template>
+<ng-template #elseBlock><p-progressBar mode="indeterminate"></p-progressBar></ng-template>
 <!--<ng-template #elseBlock><p-progressBar mode="indeterminate"></p-progressBar></ng-template>-->

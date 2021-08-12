@@ -16,7 +16,6 @@ export class CampaignDetailComponent implements OnInit {
   edit = false;
   editName: string = "";
   editDescription: string = "";
-  editLinks: string[] = [];
 
   constructor(
     private campaignService: CampaignService,
@@ -29,6 +28,7 @@ export class CampaignDetailComponent implements OnInit {
     .subscribe(campaign => {
       this.loadedCampaignObject = campaign;
       this.campaignService.setRepresentationLink(this.loadedCampaignObject.representationLink)
+      this.loadedCampaignObject.links.map((item: { link: string; }) => this.textArea+=item.link+"\n")
     });
   }
 

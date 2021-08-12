@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Table } from 'primeng/table';
 import { CampaignService } from '../campaign-create/campaign.service';
 import { Campaign } from '../campaign-create/campaignInterface';
 
@@ -19,5 +20,9 @@ export class CampaignListComponent implements OnInit {
     this.campaignService.getCampaignList()
     .subscribe(data => this.campaignList=data)
   }
+
+  clear(table: Table) {
+    table.clear();
+}
 
 }
