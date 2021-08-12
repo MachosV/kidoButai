@@ -31,9 +31,9 @@
                <input class="form-control" id="description" [(ngModel)]="loadedCampaignObject.description" placeholder="description">
                <label for="links">Links: </label>
                <textarea rows="4" class="form-control" id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
+               <a class="btn btn-primary mt-2"(click)="saveCampaign()"><i class="fa fa-save"></i> Save</a><span>&nbsp;</span>
+               <a class="btn btn-danger mt-2"(click)="closeEdit()"><i class="fa fa-window-close"> </i> Close</a>
                </div>
-               <a class="btn btn-primary"(click)="saveCampaign()">Save</a><span>&nbsp;</span>
-               <a class="btn btn-danger"(click)="revertCampaign()">Revert changes</a>
          </div>
       </div>
    </div>

@@ -44,7 +44,8 @@ export class CampaignDetailComponent implements OnInit {
     this.router.navigateByUrl("/campaigns/"+this.loadedCampaignObject.id)
   }
 
-  revertCampaign(){
-    
+  closeEdit(){
+    this.edit=false
   }
+
 }
