@@ -1,14 +1,33 @@
 <app-navbar></app-navbar>
-<div>
+<div class="container-fluid mb-2 form-group">
     <label for="name">Campaign name: </label>
-    <input id="name" [(ngModel)]="campaign.name" placeholder="name">
+    <input class="form-control" id="name" [(ngModel)]="campaign.name" placeholder="name">
     <label for="description">Description: </label>
-    <input id="description" [(ngModel)]="campaign.description" placeholder="description">
+    <input class="form-control" id="description" [(ngModel)]="campaign.description" placeholder="description">
     <label for="link">Representation Link: </label>
-    <input id="link" [(ngModel)]="campaign.representationLink" placeholder="link">
-    <label for="links">Links: </label>
-    <textarea id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
-    <a class="btn btn-primary"(click)="createCampaign()">Create</a>
+    <input class="form-control" id="link" [(ngModel)]="campaign.representationLink" placeholder="link">
+    <label for="links">Links:</label>
+    <input class="form-control" id="link" [(ngModel)]="tempLink" placeholder="link">
+    <a class="btn btn-primary mt-2"(click)="addLink()">Add Link</a><span>&nbsp;</span>
+    <!--<div class="form-group">
+        <textarea rows="4" id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
+    </div> -->
+</div>
+<div class="container-fluid mb-3">
+    <span>This campaign currently has <b>{{campaignLinks.length}}</b> link(s) </span><a (click)="showCampaignLinks()" class="btn btn-primary">Show</a>
+</div>
+
+
+<app-qr *ngIf="loadQRComponent"></app-qr>
+
+<div class="container-fluid mb-3" *ngIf="showCampaignLinksFlag">
+    <h3>{{campaign.name}} Links</h3>
+    <div class="form-group" *ngFor="let x of campaignLinks; let i = index;trackBy:trackByIdx">
+        <a class="btn btn-primary"(click)="deleteCampaignLink(i)">a</a><span>&nbsp;</span><input class="form-control" type="text" [(ngModel)]="campaignLinks[i]">
+    </div>
+</div>
+
+<div class="container-fluid mb-3">
+    <a class="btn btn-primary"(click)="createCampaign()">Create</a><span>&nbsp;</span>
     <a class="btn btn-danger"(click)="clearAll()">Reset</a>
 </div>
-<app-qr *ngIf="loadQRComponent"></app-qr>

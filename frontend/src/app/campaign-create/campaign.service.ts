@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Campaign } from './campaignInterface';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,9 @@ export class CampaignService {
 
   tempLinks: string = ""
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router) { }
 
   postCampaign(campaign: Campaign){
     this.http.post<Campaign>(this.createCampaignURL,campaign)
@@ -31,6 +34,13 @@ export class CampaignService {
       "links": links
     }
     this.http.put<Campaign>(this.campaignURL+"/"+campaign.id+"/update",object)
+    .subscribe(
+      _=>_,
+      error => console.log("An error occured",error))
+  }
+
+  deleteCampaign(campaign: Campaign): void{
+    this.http.delete<Campaign>(this.campaignURL+"/"+campaign.id)
     .subscribe(
       _=>_,
       error => console.log("An error occured",error))

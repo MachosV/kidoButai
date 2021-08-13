@@ -10,12 +10,13 @@ import { Campaign } from '../campaign-create/campaignInterface';
 })
 export class CampaignDetailComponent implements OnInit {
 
-  loadedCampaignObject: Campaign | any;
-  textArea: string = ""
-
-  edit = false;
+  campaign: Campaign | any;
+  campaignLinks: string[] = [];
   editName: string = "";
   editDescription: string = "";
+  edit = false;
+  tempLink = "";
+  newLinkFormFlag: boolean = false;
 
   constructor(
     private campaignService: CampaignService,
@@ -26,26 +27,49 @@ export class CampaignDetailComponent implements OnInit {
   ngOnInit(): void {
     this.campaignService.getCampaign(String(this.route.snapshot.paramMap.get('id')))
     .subscribe(campaign => {
-      this.loadedCampaignObject = campaign;
-      this.campaignService.setRepresentationLink(this.loadedCampaignObject.representationLink)
-      this.loadedCampaignObject.links.map((item: { link: string; }) => this.textArea+=item.link+"\n")
+      this.campaign = campaign;
+      this.campaignService.setRepresentationLink(this.campaign.representationLink)
+      this.campaign.links.map((item: { link: string; }) => {this.campaignLinks.push(item.link)})
     });
   }
 
   editCampaign(){
     this.edit = true;
-    this.textArea = "";
-    this.loadedCampaignObject.links.map((item: { link: string; }) => this.textArea+=item.link+"\n")
+  }
+
+  deleteCampaign(){
+    this.campaignService.deleteCampaign(this.campaign)
+    //this.router.navigateByUrl("/campaigns/")
   }
 
   saveCampaign(){
     this.edit = false;
-    this.campaignService.updateCampaign(this.loadedCampaignObject,this.textArea.split("/n"))
-    this.router.navigateByUrl("/campaigns/"+this.loadedCampaignObject.id)
+    this.campaignService.updateCampaign(this.campaign,this.campaignLinks)
+    this.router.navigateByUrl("/campaigns/"+this.campaign.id)
   }
 
   closeEdit(){
     this.edit=false
+  }
+
+  trackByIdx(index: number, obj: any): any {
+    return index;
+  }
+
+  showNewLinkForm():void{
+    console.log(this.campaignLinks)
+    this.newLinkFormFlag = true
+  }
+
+  addNewLink():void{
+    this.campaignLinks.push(this.tempLink)
+    console.log(this.campaignLinks)
+    this.tempLink = ""
+    //this.newLinkFormFlag = false
+  }
+
+  deleteCampaignLink(index: number):void{
+    this.campaignLinks.splice(index,1)
   }
 
 }

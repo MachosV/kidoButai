@@ -10,8 +10,11 @@ import { Campaign } from './campaignInterface';
 export class CampaignCreateComponent implements OnInit {
 
   campaign =  <Campaign>{};
-  textArea = "";
+  tempLink = "";
+  campaignLinks: string[] = [];
+  showCampaignLinksFlag = false;
   loadQRComponent = false;
+
 
   constructor(
     private campaignService: CampaignService
@@ -21,18 +24,15 @@ export class CampaignCreateComponent implements OnInit {
   }
 
   createCampaign(): void{
-    this.campaign.links = this.textArea.split("\n")
+    this.campaign.links = this.campaignLinks
     this.campaignService.postCampaign(this.campaign)
     this.campaignService.setRepresentationLink(this.campaign.representationLink)
     this.loadQRComponent = true;
   }
 
-  mockButton(): void{
-    console.log(this.campaign.name)
-    console.log(this.campaign.description)
-    console.log(this.campaign.representationLink)
-    console.log(this.campaign.links)
-    //console.log(this.textArea.split("\n"))
+  addLink(): void{
+    this.campaignLinks.push(this.tempLink)
+    this.tempLink = "";
   }
 
   clearAll(): void{
@@ -41,6 +41,19 @@ export class CampaignCreateComponent implements OnInit {
     this.campaign.description = ""
     this.campaign.representationLink = ""
     this.campaign.links = []
-    this.textArea = ""
+    this.campaignLinks = []
   }
+
+  showCampaignLinks(): void{
+    this.showCampaignLinksFlag = true;
+  }
+
+  trackByIdx(index: number, obj: any): any {
+    return index;
+  }
+
+  deleteCampaignLink(index: number):void{
+    this.campaignLinks.splice(index,1)
+  }
+
 }
