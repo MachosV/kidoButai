@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GatekeeperService } from '../auth/gatekeeper.service';
+import { MessagingService } from '../messages/messaging.service';
 
 @Component({
   selector: 'app-login-form',
@@ -14,7 +15,7 @@ export class LoginFormComponent implements OnInit {
 
   constructor(
     private gatekeeperService: GatekeeperService,
-    private router: Router
+    private router: Router,
     ) { }
 
   ngOnInit(): void {

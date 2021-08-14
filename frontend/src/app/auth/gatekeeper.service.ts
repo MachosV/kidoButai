@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MessagingService } from '../messages/messaging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class GatekeeperService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private messageService: MessagingService,
   ) { }
 
 
@@ -30,14 +32,20 @@ export class GatekeeperService {
     .subscribe(
       data => {
         if (data.response){
-          console.log("Gatekeeper Service# login success")
+          //console.log("Gatekeeper Service# login success")
           localStorage.setItem("authToken",data.response)
           localStorage.setItem("isLoggedIn_","true")
           localStorage.setItem("expires",data.expires)
+          this.messageService.addMessage("Welcome back!","success")
           this.router.navigateByUrl('/campaigns')
+        }else{
+          this.messageService.addMessage("Invalid username or password","error")
         }
       },
-      error => console.log("An error occured",error))
+      error => {
+        //console.log("An error occured",error)
+        this.messageService.addMessage("Invalid username or password","error")
+      })
   }
 
   logout(): void{

@@ -21,6 +21,7 @@ import { TableModule } from 'primeng/table';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {DataViewModule} from 'primeng/dataview';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MessagesComponent } from './messages/messages.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CampaignUpdateComponent,
     LoginFormComponent,
     NavbarComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserAnimationsModule,

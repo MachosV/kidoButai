@@ -1,0 +1,14 @@
+<div class="animate__animated animate__fadeOut animate__delay-2s" *ngIf="message.message" id="alert">
+    <div *ngIf="message.type==='error'">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{message.message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    </div>
+    <div *ngIf="message.type==='success'">
+        <div class="alert alert-primary" role="alert">
+            {{message.message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    </div>    
+</div>
