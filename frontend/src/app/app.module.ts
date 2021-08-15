@@ -22,7 +22,8 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {DataViewModule} from 'primeng/dataview';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessagesComponent } from './messages/messages.component';
-
+import { StatsComponent } from './stats/stats.component';
+import {ChartModule} from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -36,8 +37,10 @@ import { MessagesComponent } from './messages/messages.component';
     LoginFormComponent,
     NavbarComponent,
     MessagesComponent,
+    StatsComponent,
   ],
   imports: [
+    ChartModule,
     BrowserAnimationsModule,
     DataViewModule,
     ProgressBarModule,
