@@ -19,7 +19,7 @@ export class MessagesComponent implements OnInit {
     this.messageService.getMessage().subscribe(
       message=>{
         this.message = message
-        setTimeout(() => this.message.message="", 4000);
+        setTimeout(() => this.message.message="", 3000);
       },
       error => console.log("An error occured",error)
       )
