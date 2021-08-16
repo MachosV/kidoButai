@@ -27,8 +27,9 @@ export class GatekeeperService {
     var params = new HttpParams()
       .set('username', username)
       .set('password',password);
-
+    console.log("posting login data")
     this.http.post<any>(this.loginURL,params)
+
     .subscribe(
       data => {
         if (data.response){

@@ -1,4 +1,4 @@
-<div class="animate__animated animate__fadeOut animate__delay-2s" *ngIf="message.message" id="alert">
+<div #messageDiv class="animate__animated animate__fadeOut animate__delay-3s" *ngIf="message.message" id="alert">
     <div *ngIf="message.type==='error'">
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{message.message}}

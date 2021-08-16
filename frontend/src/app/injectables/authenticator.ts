@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ){}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("AuthInterceptor# Interceptor fired up")
+    //console.log("AuthInterceptor# Interceptor fired up")
     if(this.gatekeeperService.isLoggedIn()){
       //console.log("AuthInterceptor# We are logged in")
       const userToken = this.gatekeeperService.getAuthToken();

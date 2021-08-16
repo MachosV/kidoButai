@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Message } from './messageInterface';
 import { MessagingService } from './messaging.service';
@@ -10,16 +9,17 @@ import { MessagingService } from './messaging.service';
 })
 export class MessagesComponent implements OnInit {
 
-  message: Message | any
+  message: Message = {"message":"", "type":""}
 
   constructor(
     private messageService: MessagingService,
   ) { }
 
   ngOnInit(): void {
-    this.message = this.messageService.getMessage().subscribe(
+    this.messageService.getMessage().subscribe(
       message=>{
-        this.message=message
+        this.message = message
+        setTimeout(() => this.message.message="", 4000);
       },
       error => console.log("An error occured",error)
       )
