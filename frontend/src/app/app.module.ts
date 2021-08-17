@@ -25,6 +25,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { StatsComponent } from './stats/stats.component';
 import {ChartModule} from 'primeng/chart';
 import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import {CalendarModule} from 'primeng/calendar';
     StatsComponent,
   ],
   imports: [
+    DropdownModule,
     CalendarModule,
     ChartModule,
     BrowserAnimationsModule,

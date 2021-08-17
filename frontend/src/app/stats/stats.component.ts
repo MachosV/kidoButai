@@ -17,6 +17,8 @@ export class StatsComponent implements OnInit {
   stats: any;
   dateValue: any;
   top: any;
+  intervals: any;
+  selectedInterval: any;
 
   constructor(private statService: StatService) { }
 
@@ -61,10 +63,19 @@ export class StatsComponent implements OnInit {
     })
   }
 
+
+
   ngOnInit(): void {
-    //this.dateValue = formatDate(new Date(), 'dd/MM/yyyy', 'en');
+    this.intervals = [
+      {name: 'Daily ', code: 'dy'},
+      {name: 'Past 7 days ', code: 'we'},
+      {name: 'Monthly ', code: 'mt'},
+    ]
+    var tempDate = new Date()
+    tempDate.setDate(tempDate.getDate()-7)
+    this.dateValue = formatDate(tempDate, 'dd/MM/yyyy', 'en');
     //this.stats = this.statService.getStats(this.id)
-    //this.loadStats()
+    this.loadStats()
 
   }
 

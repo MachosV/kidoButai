@@ -1,4 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
 @import '../node_modules/primeng/resources/primeng.min.css';
-body {background-color: rgb(249, 245, 252);}
+::ng-deep body {background-color: rgb(249, 245, 252);}
