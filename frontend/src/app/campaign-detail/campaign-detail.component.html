@@ -48,7 +48,7 @@
             <a *ngIf="edit==false" class="btn btn-primary"(click)="editCampaign()"><i class="fa fa-wrench"></i> Edit</a> 
             <span>&nbsp;</span>
             <a *ngIf="edit==false" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
-            <app-stats></app-stats>
+            <app-stats [id]="campaign.id"></app-stats>
           </div>
 
 

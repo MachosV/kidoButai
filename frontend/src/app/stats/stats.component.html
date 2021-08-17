@@ -1,2 +1,6 @@
-<!--<p>stats works!</p>-->
-<p-chart #chart type="line" [data]="data"></p-chart>
+
+<div class="text-center">
+    <p-calendar (onSelect)="dateChanged()" [readonlyInput]="true" [(ngModel)]="dateValue" dateFormat="dd/mm/yy"></p-calendar>
+</div>
+<p-chart #chart type="line" [data]="data" [options]="basicOptions" ></p-chart>
+

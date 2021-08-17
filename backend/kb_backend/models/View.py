@@ -8,3 +8,4 @@ class View(models.Model):
     #link = models.CharField(max_length=512)
     create_date = models.DateTimeField(auto_now_add=True)
     campaign = models.ForeignKey(Campaign,on_delete=models.CASCADE)
+

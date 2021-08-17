@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessagesComponent } from './messages/messages.component';
 import { StatsComponent } from './stats/stats.component';
 import {ChartModule} from 'primeng/chart';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {ChartModule} from 'primeng/chart';
     StatsComponent,
   ],
   imports: [
+    CalendarModule,
     ChartModule,
     BrowserAnimationsModule,
     DataViewModule,
@@ -51,7 +53,8 @@ import {ChartModule} from 'primeng/chart';
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

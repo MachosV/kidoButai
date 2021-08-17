@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { setupTestingRouter } from '@angular/router/testing';
+import { StatService } from './stats-service.service';
 
 @Component({
   selector: 'app-stats',
@@ -7,29 +10,67 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class StatsComponent implements OnInit {
 
+  @Input() id!: string;
+
   data: any;
+  basicOptions: any;
+  stats: any;
+  dateValue: any;
+  top: any;
 
-  //@ViewChild('chart') chart: any;
+  constructor(private statService: StatService) { }
 
 
-  constructor() { }
-
-  ngOnInit(): void {
-    /*setTimeout(() => {
-      this.chart.refresh();
-    }, 100);*/
+  setupChart():void{
     this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: this.stats.map((stat: { create_date: any; }) => stat.create_date),
       datasets: [
           {
               label: 'Views',
-              data: [65, 59, 80, 81, 56, 55, 40],
+              data: this.stats.map((stat: { count: any; }) => stat.count),
               borderColor: '#42A5F5',
               //fill:false,
-              backgroundColor: 'rgba(2, 117, 216, 0.31)'
+              backgroundColor: 'rgba(2, 117, 216, 0.31)',
+              tension:0.4,
           }
-      ]
-      }
+      ],
+    }
+
+    var tempMax = Math.max.apply(null, this.data.datasets[0].data)
+    tempMax = Math.floor(tempMax + (tempMax * 0.10))
+    var tempMin = Math.min.apply(null, this.data.datasets[0].data)
+    tempMin = Math.floor(tempMin - (tempMin * 0.10))
+
+    this.basicOptions = {
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: tempMin,
+              max: tempMax,
+              precision: 0
+            }
+          }]
+        }
+    };
   }
 
+  loadStats(): void{
+    this.statService.getStats(this.id,this.dateValue).subscribe(data =>{
+      this.stats=data;
+      this.setupChart()
+    })
+  }
+
+  ngOnInit(): void {
+    //this.dateValue = formatDate(new Date(), 'dd/MM/yyyy', 'en');
+    //this.stats = this.statService.getStats(this.id)
+    //this.loadStats()
+
+  }
+
+  dateChanged():void{
+    this.top  = window.pageYOffset || document.documentElement.scrollTop
+    this.dateValue = formatDate(this.dateValue,'dd/MM/yyyy',"en-UK")
+    this.loadStats()
+  }
 }
