@@ -42,8 +42,9 @@ class ViewListDailyEndpoint(generics.ListAPIView):
         startDate = self.request.GET.get('startDate', '')
         startDate = datetime.strptime(startDate,"%d/%m/%Y")
 
+        print(startDate.year, startDate.month, startDate.day)
 
-        qs = View.objects.filter(campaign=campaign,create_date__gte=startDate)\
+        qs = View.objects.filter(campaign=campaign,create_date__day=startDate.day,create_date__month=startDate.month,create_date__year=startDate.year)\
         .annotate(hour=ExtractHour("create_date"))\
         .values('hour').annotate(count=Count('id'))
         

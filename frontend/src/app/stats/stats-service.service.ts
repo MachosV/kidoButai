@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Stat } from './statInterface';
+import { Stat,StatDaily } from './statInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,15 @@ export class StatService {
     
    }
 
-   getStats(id: string, date: string):Observable<Stat[]>{
+   getStatsWeekly(id: string, date: string):Observable<Stat[]>{
     return this.http.get<Stat[]>(this.statURL+"/"+id+"?startDate="+date)
+   }
+
+   getStatsDaily(id: string, date:string):Observable<StatDaily[]>{
+     return this.http.get<StatDaily[]>(this.statURL+"/"+id+"/daily?startDate="+date)
+   }
+
+   getStatsMonthly(id: string, date:string): void{
+     console.log("Not yet implemented")
    }
 }

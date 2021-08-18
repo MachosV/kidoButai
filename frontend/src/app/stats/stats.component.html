@@ -4,7 +4,7 @@
 </div>
 <p-chart #chart type="line" [data]="data" [options]="basicOptions" ></p-chart>
 <div class="text-center mt-3">
-    <p-dropdown [options]="intervals" [(ngModel)]="selectedInterval" optionLabel="name"></p-dropdown>
+    <p-dropdown (onChange)="intervalChanged()" [options]="intervals" [(ngModel)]="selectedInterval" optionLabel="name"></p-dropdown>
 </div>
 
 

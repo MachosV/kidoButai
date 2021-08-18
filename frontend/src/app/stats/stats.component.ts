@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { setupTestingRouter } from '@angular/router/testing';
+import { StatDaily } from './statInterface';
 import { StatService } from './stats-service.service';
 
 @Component({
@@ -19,13 +19,15 @@ export class StatsComponent implements OnInit {
   top: any;
   intervals: any;
   selectedInterval: any;
+  labels: any;
 
   constructor(private statService: StatService) { }
 
 
   setupChart():void{
+
     this.data = {
-      labels: this.stats.map((stat: { create_date: any; }) => stat.create_date),
+      labels: this.labels,
       datasets: [
           {
               label: 'Views',
@@ -39,7 +41,7 @@ export class StatsComponent implements OnInit {
     }
 
     var tempMax = Math.max.apply(null, this.data.datasets[0].data)
-    tempMax = Math.floor(tempMax + (tempMax * 0.10))
+    tempMax = Math.ceil(tempMax + (tempMax * 0.10))
     var tempMin = Math.min.apply(null, this.data.datasets[0].data)
     tempMin = Math.floor(tempMin - (tempMin * 0.10))
 
@@ -56,25 +58,61 @@ export class StatsComponent implements OnInit {
     };
   }
 
-  loadStats(): void{
-    this.statService.getStats(this.id,this.dateValue).subscribe(data =>{
-      this.stats=data;
-      this.setupChart()
-    })
+
+  loadDailyStats():void{
+    var hours = this.stats.map((stat: { hour: any; }) => stat.hour)
+    for (let i = 0; i < 24; i++) {
+      if (hours.includes(i)){
+        continue
+      }
+      this.stats.push({"hour":i,"count":0})
+
+    }
+    this.stats.sort(function(a: StatDaily, b: StatDaily) {
+      return a.hour - b.hour;
+    });
+    this.labels = this.stats.map((stat: { hour: any; }) => stat.hour)
+
+  }
+
+  loadWeeklyStats():void{
+    this.labels = this.stats.map((stat: { create_date: any; }) => stat.create_date)
   }
 
 
+  loadStats(): void{
+    switch(this.selectedInterval.code){
+      case "we":
+        this.statService.getStatsWeekly(this.id,this.dateValue).subscribe(data =>{
+          this.stats = data;
+          this.loadWeeklyStats()
+          this.setupChart()
+        })
+        break;
+      case "dy":
+        this.statService.getStatsDaily(this.id,this.dateValue).subscribe(data =>{
+          this.stats=data;
+          this.loadDailyStats()
+          this.setupChart()
+        })
+        break;
+      /*case "mt":
+        this.statService.getStatsMonthly(this.id,this.dateValue).subscribe(data =>{
+          this.stats=data;
+          this.setupChart()
+        })*/
+    }
+  }
 
   ngOnInit(): void {
     this.intervals = [
       {name: 'Daily ', code: 'dy'},
-      {name: 'Past 7 days ', code: 'we'},
+      {name: 'Weekly ', code: 'we'},
       {name: 'Monthly ', code: 'mt'},
     ]
+    this.selectedInterval = this.intervals[0]
     var tempDate = new Date()
-    tempDate.setDate(tempDate.getDate()-7)
     this.dateValue = formatDate(tempDate, 'dd/MM/yyyy', 'en');
-    //this.stats = this.statService.getStats(this.id)
     this.loadStats()
 
   }
@@ -82,6 +120,10 @@ export class StatsComponent implements OnInit {
   dateChanged():void{
     this.top  = window.pageYOffset || document.documentElement.scrollTop
     this.dateValue = formatDate(this.dateValue,'dd/MM/yyyy',"en-UK")
+    this.loadStats()
+  }
+
+  intervalChanged():void{
     this.loadStats()
   }
 }
