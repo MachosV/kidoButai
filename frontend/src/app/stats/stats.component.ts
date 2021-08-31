@@ -20,6 +20,7 @@ export class StatsComponent implements OnInit {
   intervals: any;
   selectedInterval: any;
   labels: any;
+  processedData: any;
 
   constructor(private statService: StatService) { }
 
@@ -30,13 +31,25 @@ export class StatsComponent implements OnInit {
       labels: this.labels,
       datasets: [
           {
+              type:"bar",
               label: 'Views',
-              data: this.stats.map((stat: { count: any; }) => stat.count),
-              borderColor: '#42A5F5',
-              //fill:false,
-              backgroundColor: 'rgba(2, 117, 216, 0.31)',
-              tension:0.4,
-          }
+              data: this.processedData.map((stat: { count: any; }) => stat.count),
+              //borderColor: '#42A5F5',
+              borderColor: 'rgba(2, 117, 216, 1',
+              fill:false,
+              backgroundColor: 'rgba(2, 117, 216, 1',
+              tension:0.2,
+              borderWidth:3
+          },
+          /*{
+            type:"bar",
+            label: 'Views',
+            data: this.processedData.map((stat: { count: any; }) => stat.count),
+            borderColor: '#42A5F5',
+            //fill:false,
+            backgroundColor: 'rgba(2, 117, 216, 0.31)',
+            tension:0.2,
+        }*/
       ],
     }
 
@@ -62,25 +75,35 @@ export class StatsComponent implements OnInit {
   loadDailyStats():void{
     var hours = this.stats.map((stat: { hour: any; }) => stat.hour)
     for (let i = 0; i < 24; i++) {
+      var hour = i+":00 - "+(i+1)+":00"
       if (hours.includes(i)){
+        this.processedData.push({"hour":hour,"count":this.stats[this.stats.map((e: StatDaily) => e.hour).indexOf(i)].count})
         continue
       }
-      this.stats.push({"hour":i,"count":0})
-
+      this.processedData.push({"hour":hour,"count":0})
     }
-    this.stats.sort(function(a: StatDaily, b: StatDaily) {
+    
+    /*this.stats.sort(function(a: StatDaily, b: StatDaily) {
       return a.hour - b.hour;
-    });
-    this.labels = this.stats.map((stat: { hour: any; }) => stat.hour)
+    });*/
+    this.labels = this.processedData.map((stat: { hour: any; }) => stat.hour)
 
   }
 
   loadWeeklyStats():void{
+    //let startDate = new Date(parseInt(this.dateValue.split("/")[1],10),parseInt(this.dateValue.split("/")[0],10),parseInt(this.dateValue.split("/")[2],10))
+    //console.log(this.dateValue.split("/")[2],this.dateValue.split("/")[1],this.dateValue.split("/")[0])
+    //console.log(startDate)
+    let processedDate = new Date(this.dateValue.split("/")[2]+" "+this.dateValue.split("/")[1]+" "+this.dateValue.split("/")[0])
+    
+    //for(let i = 0; i<7; i++){
+      //console.log(processedDate+i)
+    //}
     this.labels = this.stats.map((stat: { create_date: any; }) => stat.create_date)
   }
 
-
   loadStats(): void{
+    this.processedData = [];
     switch(this.selectedInterval.code){
       case "we":
         this.statService.getStatsWeekly(this.id,this.dateValue).subscribe(data =>{
@@ -108,7 +131,7 @@ export class StatsComponent implements OnInit {
     this.intervals = [
       {name: 'Daily ', code: 'dy'},
       {name: 'Weekly ', code: 'we'},
-      {name: 'Monthly ', code: 'mt'},
+      //{name: 'Monthly ', code: 'mt'},
     ]
     this.selectedInterval = this.intervals[0]
     var tempDate = new Date()
@@ -118,7 +141,7 @@ export class StatsComponent implements OnInit {
   }
 
   dateChanged():void{
-    this.top  = window.pageYOffset || document.documentElement.scrollTop
+    //this.top  = window.pageYOffset || document.documentElement.scrollTop
     this.dateValue = formatDate(this.dateValue,'dd/MM/yyyy',"en-UK")
     this.loadStats()
   }
