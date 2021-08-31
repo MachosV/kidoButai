@@ -33,12 +33,13 @@ class AuthView(APIView):
         return JsonResponse({"message":"logged out"})
 
 
-class ExampleView(APIView):
+class CheckAuth(APIView):
     authentication_classes = [ExpiringTokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
-        content = {
-            'message':'accessed authed page',  # None
-        }
+        content = content = {
+            'response':'Not authed',  # None
+            }
+        if (request.user.is_authenticated):
+            content["response"] = "Authed"
         return JsonResponse(content)

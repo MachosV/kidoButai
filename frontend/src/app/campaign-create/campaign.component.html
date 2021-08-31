@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container-fluid mb-2 form-group">
+<div class="container mb-2 form-group">
     <label for="name">Campaign name: </label>
     <input class="form-control" id="name" [(ngModel)]="campaign.name" placeholder="name">
     <label for="description">Description: </label>
@@ -13,7 +13,7 @@
         <textarea rows="4" id="links" [(ngModel)]="textArea" placeholder="links"></textarea>
     </div> -->
 </div>
-<div class="container-fluid mb-3">
+<div class="container mb-3">
     <span>This campaign currently has <b>{{campaignLinks.length}}</b> link(s) </span><a (click)="showCampaignLinks()" class="btn btn-primary">Show</a>
 </div>
 
@@ -23,11 +23,15 @@
 <div class="container-fluid mb-3" *ngIf="showCampaignLinksFlag">
     <h3>{{campaign.name}} Links</h3>
     <div class="form-group" *ngFor="let x of campaignLinks; let i = index;trackBy:trackByIdx">
-        <a class="btn btn-primary"(click)="deleteCampaignLink(i)">a</a><span>&nbsp;</span><input class="form-control" type="text" [(ngModel)]="campaignLinks[i]">
-    </div>
+        <div class="input-group">
+         <input class="form-control" type="text" [(ngModel)]="campaignLinks[i]">
+         <a class="btn btn-outline-danger mr-2"(click)="deleteCampaignLink(i)"><i class="fa fa-trash"></i></a>
+        </div>
+       </div>
 </div>
 
 <div class="container-fluid mb-3">
-    <a class="btn btn-primary"(click)="createCampaign()">Create</a><span>&nbsp;</span>
+    <a *ngIf="!loadQRComponent" class="btn btn-primary"(click)="previewCampaign()">Preview</a><span>&nbsp;</span>
+    <a *ngIf="loadQRComponent" class="btn btn-primary"(click)="createCampaign()">Create</a><span>&nbsp;</span>
     <a class="btn btn-danger"(click)="clearAll()">Reset</a>
 </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Campaign } from './campaignInterface';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Campaign, CampaignPage } from './campaignInterface';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -47,8 +47,17 @@ export class CampaignService {
   }
 
 
-  getCampaignList() :Observable<Campaign[]>{
-    return this.http.get<Campaign[]>(this.campaignURL)
+  getCampaignList(page:string, search:string) :Observable<CampaignPage>{
+
+    let params = new HttpParams();
+    var tempCampaignURL = this.campaignURL
+    if(page){
+      tempCampaignURL = tempCampaignURL+page.split("/campaign")[1]
+    }
+    if(search){
+      params = params.append('search', search);
+    }
+    return this.http.get<CampaignPage>(tempCampaignURL,{params:params})
   }
 
   getCampaign(id: string): Observable<Campaign> {
@@ -62,7 +71,5 @@ export class CampaignService {
   getRepresentationLink(): string{
     return this.representationLink
   }
-
-
 
 }

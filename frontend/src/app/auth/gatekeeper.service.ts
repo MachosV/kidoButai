@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { MessagingService } from '../messages/messaging.service';
 
 @Injectable({
@@ -10,8 +9,9 @@ import { MessagingService } from '../messages/messaging.service';
 export class GatekeeperService {
 
 
-  private loginURL: string = "api/auth"
-  private date: number = 0
+  private loginURL: string = "api/auth";
+  private checkAuthURL: string = "api/checkAuth";
+  private date: number = 0;
 
 
   constructor(
@@ -27,7 +27,7 @@ export class GatekeeperService {
     var params = new HttpParams()
       .set('username', username)
       .set('password',password);
-    console.log("posting login data")
+    //console.log("posting login data")
     this.http.post<any>(this.loginURL,params)
 
     .subscribe(
@@ -36,7 +36,7 @@ export class GatekeeperService {
           //console.log("Gatekeeper Service# login success")
           localStorage.setItem("authToken",data.response)
           localStorage.setItem("isLoggedIn_","true")
-          localStorage.setItem("expires",data.expires)
+          localStorage.setItem("expires",new Date(new Date().getTime() + 1*60000).toString())
           this.messageService.addMessage("Welcome back!","success")
           this.router.navigateByUrl('/campaigns')
         }else{
@@ -56,23 +56,45 @@ export class GatekeeperService {
     this.router.navigateByUrl('/login')
   }
 
-  isLoggedIn(): boolean{
+  async isLoggedIn(): Promise<boolean>{
     this.date = Date.now()
-    
+    let login = false;
+
     var tempString = localStorage.getItem('expires')
+    var backendAuth;
+    
+    if(localStorage.getItem("isLoggedIn_")==="true"){
+      login = true
+    }
+
     if (tempString){
       var parsedDate = Date.parse(tempString)
       if (this.date > parsedDate){
-        localStorage.setItem("isLoggedIn_","false")
-        localStorage.setItem("authToken","")
-        localStorage.setItem("expires","")
-        return false
+        backendAuth = await this.checkBackendAuth().toPromise() //await here
+        if (!(backendAuth.message==="Authed")){
+          //login = true
+          login = false
+        }
+        //login = false
       }
+        if(!login){
+          localStorage.setItem("isLoggedIn_","false")
+          localStorage.setItem("authToken","")
+          localStorage.setItem("expires","")
+          this.router.navigateByUrl("login")
+          return Promise.resolve(false)
+        }
+        localStorage.setItem("expires",new Date(new Date().getTime() + 15*60000).toString())
+          return Promise.resolve(true)
+    }else{
+      console.log("no temp string")
     }
+    
 
     if(localStorage.getItem("isLoggedIn_")=='true'){
       return true
     }
+    this.router.navigateByUrl("login")
     return false
   }
 
@@ -80,4 +102,20 @@ export class GatekeeperService {
     return localStorage.getItem('authToken')
   }
 
+
+  checkBackendAuth(){
+    // var data = await this.http.get<any>(this.checkAuthURL).toPromise()
+    return this.http.get<any>(this.checkAuthURL);
+
+  //   .then(data =>{
+  //     if (data.message==="Authed"){
+  //       console.log("We are authed")
+  //       return true
+  //     }
+  //     console.log("We are not authed")
+  //     return false
+  //   })
+  // }
+
+}
 }

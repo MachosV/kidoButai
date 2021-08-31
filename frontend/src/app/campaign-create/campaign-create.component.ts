@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { CampaignService } from './campaign.service';
 import { Campaign } from './campaignInterface';
 
@@ -7,6 +8,7 @@ import { Campaign } from './campaignInterface';
   templateUrl: './campaign.component.html',
   styleUrls: ['./campaign.component.css']
 })
+
 export class CampaignCreateComponent implements OnInit {
 
   campaign =  <Campaign>{};
@@ -23,11 +25,14 @@ export class CampaignCreateComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  previewCampaign(): void{
+    this.campaignService.setRepresentationLink(this.campaign.representationLink)
+    this.loadQRComponent = true;
+  }
+
   createCampaign(): void{
     this.campaign.links = this.campaignLinks
     this.campaignService.postCampaign(this.campaign)
-    this.campaignService.setRepresentationLink(this.campaign.representationLink)
-    this.loadQRComponent = true;
   }
 
   addLink(): void{

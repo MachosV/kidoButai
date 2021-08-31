@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Message } from './messageInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ export class MessagingService {
   private subject = new Subject<{}>();
 
   addMessage(message: string, type: any) {
-    console.log("Messaging service got message")
+    //console.log("Messaging service got message")
     this.subject.next({ "message": message, "type": type });
   }
 

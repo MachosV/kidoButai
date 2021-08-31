@@ -12,7 +12,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //console.log("AuthInterceptor# Interceptor fired up")
-    if(this.gatekeeperService.isLoggedIn()){
+    // if(this.gatekeeperService.isLoggedIn()){
+    if(localStorage.getItem("isLoggedIn_")==="true"){
+
       //console.log("AuthInterceptor# We are logged in")
       const userToken = this.gatekeeperService.getAuthToken();
       const modifiedReq = req.clone({ 

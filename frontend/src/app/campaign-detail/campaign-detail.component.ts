@@ -57,13 +57,11 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   showNewLinkForm():void{
-    console.log(this.campaignLinks)
     this.newLinkFormFlag = true
   }
 
   addNewLink():void{
     this.campaignLinks.push(this.tempLink)
-    console.log(this.campaignLinks)
     this.tempLink = ""
     //this.newLinkFormFlag = false
   }

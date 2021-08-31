@@ -19,9 +19,9 @@ export class LoginFormComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    if(this.gatekeeperService.isLoggedIn()){
-      this.router.navigateByUrl("/campaigns")
-    }
+    // if(this.gatekeeperService.isLoggedIn()){
+    //   this.router.navigateByUrl("/campaigns")
+    // }
   }
 
   login(): void{

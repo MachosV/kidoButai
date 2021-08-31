@@ -40,7 +40,7 @@ export class StatService {
    }
 
    getStatsWeekly(id: string, date: string):Observable<Stat[]>{
-    return this.http.get<Stat[]>(this.statURL+"/"+id+"?startDate="+date)
+    return this.http.get<Stat[]>(this.statURL+"/"+id+"/weekly?startDate="+date)
    }
 
    getStatsDaily(id: string, date:string):Observable<StatDaily[]>{

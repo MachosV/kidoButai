@@ -12,8 +12,7 @@ export class QrComponent implements OnInit {
 
   constructor(
     private campaignService: CampaignService
-  ) { 
-  }
+  ) {}
 
   ngOnInit(): void {
     this.representationLink = this.campaignService.getRepresentationLink()

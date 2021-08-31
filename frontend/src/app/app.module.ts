@@ -27,7 +27,6 @@ import {ChartModule} from 'primeng/chart';
 import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
 
-
 @NgModule({
   declarations: [
     LoginFormComponent,

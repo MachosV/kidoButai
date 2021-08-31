@@ -10,10 +10,10 @@ from .api import ViewViews
 urlpatterns = [
     path('campaign', CampaignViews.CampaignListEndpoint.as_view() , name='CampaignListEndpoint'),
     path('campaign/create', CampaignViews.CampaignCreateEndpoint.as_view() , name='CampaignCreateEndpoint'),
-    path('campaign/<pk>', CampaignViews.CampaignEndpoint.as_view() , name='CampaignRUDEndpoint'), #can retrieve and delete
-    path('campaign/<pk>/update', CampaignViews.CampaignUpdateEndpoint.as_view() , name='CampaignUEndpoint'), #can update
-    path('stats/<pk>',ViewViews.ViewListEndpoint.as_view(),name="ViewList"),
+    path('campaign/<pk>', CampaignViews.CampaignEndpoint.as_view() , name='CampaignRUDEndpoint'),
+    path('campaign/<pk>/update', CampaignViews.CampaignUpdateEndpoint.as_view() , name='CampaignUEndpoint'),
+    path('stats/<pk>/weekly',ViewViews.ViewListWeeklyEndpoint.as_view(),name="ViewListWeekly"),
     path('stats/<pk>/daily',ViewViews.ViewListDailyEndpoint.as_view(),name="ViewListDaily"),
     path('auth',AuthViews.AuthView.as_view(), name='AuthenticationView'),
-    path('example',AuthViews.ExampleView.as_view(), name='ExampleAuthView'),
+    path('checkAuth',AuthViews.CheckAuth.as_view(), name='CheckAuthView'),
 ]

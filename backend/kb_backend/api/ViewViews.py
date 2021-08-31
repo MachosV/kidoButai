@@ -7,7 +7,7 @@ from datetime import datetime
 from django.db.models.functions import Trunc
 from django.db.models.functions import ExtractHour
 
-class StatSerializer(serializers.Serializer):
+class StatSerializerWeekly(serializers.Serializer):
     create_date = serializers.CharField(max_length=12)
     count = serializers.IntegerField()
 
@@ -16,9 +16,11 @@ class StatSerializerHourly(serializers.Serializer):
     count = serializers.IntegerField()
 
 
-class ViewListEndpoint(generics.ListAPIView):
-    serializer_class = StatSerializer
+class ViewListWeeklyEndpoint(generics.ListAPIView):
+    serializer_class = StatSerializerWeekly
     queryset = View.objects.all()
+    pagination_class = None
+
 
     def get_queryset(self):
         user = self.request.user
@@ -32,9 +34,11 @@ class ViewListEndpoint(generics.ListAPIView):
         
         return qs
 
+
 class ViewListDailyEndpoint(generics.ListAPIView):
     serializer_class = StatSerializerHourly
     queryset = View.objects.all()
+    pagination_class = None
 
     def get_queryset(self):
         user = self.request.user

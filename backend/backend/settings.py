@@ -34,7 +34,9 @@ REST_FRAMEWORK = {
         #'rest_framework.authentication.TokenAuthentication',
         'django_expiring_token.authentication.ExpiringTokenAuthentication',
     ],
-    "EXCEPTION_HANDLER": "kb_backend.exceptionHandlers.authExceptionHandlers.unauthenticated"
+    "EXCEPTION_HANDLER": "kb_backend.exceptionHandlers.authExceptionHandlers.unauthenticated",
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    'PAGE_SIZE': 6
 }
 
 # Application definition

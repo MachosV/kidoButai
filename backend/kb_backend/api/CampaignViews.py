@@ -3,6 +3,11 @@ from rest_framework.views import APIView
 from kb_backend.serializers import CampaignSerializer,CampaignCreateSerializer, CampaignEditSerializer
 from rest_framework import generics, status
 from ..models import Campaign,CampaignLink
+from rest_framework import pagination
+from rest_framework import filters
+
+class CustomPagination(pagination.CursorPagination):
+    ordering = "-create_date"
 
 class CampaignEndpoint(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CampaignSerializer
@@ -50,10 +55,14 @@ class CampaignCreateEndpoint(generics.CreateAPIView):
 class CampaignListEndpoint(generics.ListAPIView):
     serializer_class = CampaignSerializer
     queryset = Campaign.objects.all()
+    pagination_class = CustomPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'description']
 
     def get_queryset(self):
         user = self.request.user
         return Campaign.objects.filter(owner=user)
+
 
 
 class CampaignUpdateEndpoint(APIView):
