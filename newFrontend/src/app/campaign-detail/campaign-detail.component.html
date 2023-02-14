@@ -1,0 +1,108 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="campaign else elseBlock">
+  <h4>{{campaign.name}}</h4>
+   <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/campaigns">My QR Codes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{campaign.name}}</li>
+      </ol>
+    </nav>
+   <div class="card">
+      <div class="card-body">
+         <div class="card-header">
+          <div class="text-center" id=canvas{{campaign.id}}></div>
+         <app-qr-preview [id]="campaign.id" [item]="campaign.options"></app-qr-preview>
+         </div>
+         <div class="card-title">
+            <strong>{{campaign.name}}</strong>
+         </div>
+         <div class="card-body">
+            <p>{{campaign.description}}</p>
+            <p><span style="color:dimgrey"><i class="fa fa-info-circle"></i></span> You can access the links of this campaign, by going to http://192.168.1.4/{{campaign.representationLink}}</p>
+            <p>This campaign has <b>{{campaignLinks.length}}</b> links </p>
+            <div *ngIf="edit"class="card-footer">
+              <p *ngIf="edit"> </p>
+
+              <!--edit div-->
+              <div class="container-fluid mb-2" *ngIf="edit">
+                 <label for="name">Campaign name: </label>
+                 <input class="form-control" id="name" [(ngModel)]="campaign.name" placeholder="name">
+                 <label for="description">Description: </label>
+                 <input class="form-control" id="description" [(ngModel)]="campaign.description" placeholder="description">
+                 <label for="links">Links: </label>
+                 <div class="form-group" *ngFor="let x of campaignLinks; let i = index;trackBy:trackByIdx">
+                   <div class="input-group">
+                    <input class="form-control" type="text" [(ngModel)]="campaignLinks[i]">
+                    <a class="btn btn-outline-danger mr-2"(click)="deleteCampaignLink(i)"><i class="bi bi-trash"></i></a>
+                   </div>
+                  </div>
+                  <div class="input-group">
+                    <input class="form-control" id="link" [(ngModel)]="tempLink" placeholder="Add a new link">
+                    <a class="btn btn-outline-primary mr-2" (click)="addNewLink()"><i class="bi bi-plus"></i></a>
+                   </div>
+                   
+                 <a class="btn btn-primary mt-2"(click)="saveCampaign()"><i class="bi bi-save"></i> Save</a><span>&nbsp;</span>
+                 <a class="btn btn-danger mt-2"(click)="closeEdit()"><i class="bi bi-window-close"> </i> Close</a>
+                 </div>
+           </div> 
+
+
+            <a *ngIf="edit==false" class="btn btn-primary"(click)="editCampaign()"><i class="bi bi-wrench"></i> Edit</a> 
+            <span>&nbsp;</span>
+            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDownload"><i class="bi bi-save"></i> Download</a><span>&nbsp;</span>
+            <a *ngIf="edit==false" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" class="btn btn-danger"><i class="bi bi-trash"></i> Delete</a>
+          </div>
+
+
+         <!--Delete modal div-->
+         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Delete {{campaign.name}}</h5>
+                  <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>-->
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete {{campaign.name}}?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, take me back</button>
+                  <a routerLink="/campaigns" type="button" data-bs-dismiss="modal" (click)="deleteCampaign()" class="btn btn-danger">Yes, delete it</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+          <!--Download modal-->
+          <div class="modal fade" id="modalDownload" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Download {{campaign.name}} QR Code</h5>
+                  <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>-->
+                </div>
+                <div class="modal-body">
+                  <span>Save as:</span><select id="qrFiletype" [(ngModel)]="qrObject.filetype" class="form-select mb-3" aria-label="Default select example">
+                    <option selected value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                    <option value="svg">SVG</option>
+                  </select>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="downloadQR()"><i class="bi bi-save"></i> Download</button>
+                  <!--<a routerLink="" type="button" data-bs-dismiss="modal" class="btn btn-danger">Yes, delete it</a>-->
+                </div>
+              </div>
+            </div>
+          </div>  
+
+
+      </div>
+   </div>
+</div>
+<ng-template #elseBlock><p-progressBar mode="indeterminate"></p-progressBar></ng-template>

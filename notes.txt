@@ -1,0 +1,7 @@
+QR model
+
+name
+description
+qrLinks
+qrRepresentationLink
+options (base64 encoded string)

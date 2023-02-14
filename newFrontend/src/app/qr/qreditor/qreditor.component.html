@@ -1,0 +1,223 @@
+  <h5>New QR Code</h5>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="container mb-2 form-group">
+                <label for="name">QR name: </label>
+                <input class="form-control" id="name" [(ngModel)]="qrObject.qrName"  (ngModelChange) ="onQrChange()" placeholder="Name">
+                <label for="description">Description: </label>
+                <input class="form-control" id="description" [(ngModel)]="qrObject.qrDescription" (ngModelChange) = "onQrChange()" placeholder="Description">
+                <label for="description">Google analytics Tracking ID </label>
+                <div class="input-group">
+                  <input class="form-control" id="trackingID" [(ngModel)]="qrObject.qrAnalytics" (ngModelChange) = "onQrChange()" placeholder="Tracking ID">
+                  <button data-toggle="tooltip" data-placement="top" title="Click for more info" class="input-group-text btn btn-outline-primary"><a href="https://support.google.com/analytics/answer/9539598#find-G-ID"><span class="bi bi-info-circle"></span></a></button>  
+                </div>
+
+                <div class="d-flex align-items-start mt-3">
+                  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active" id="v-pills-singleURL-tab" data-bs-toggle="pill" data-bs-target="#v-pills-SingleURL" type="button" role="tab" aria-controls="v-pills-SingleURL" aria-selected="true" (click)="showSingleURLForm()">Single URL</button>
+                    <button class="nav-link" id="v-pills-multiURL-tab" data-bs-toggle="pill" data-bs-target="#v-pills-multiURL" type="button" role="tab" aria-controls="v-pills-multiURL">Multiple URLs</button>
+                    
+                  </div>
+                  <div class="tab-content container-fluid" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-SingleURL" role="tabpanel" aria-labelledby="v-pills-SingleURL-tab">
+                      <h4>Enter URL</h4>
+                      <input class="form-control" id="reprLink" [(ngModel)]="qrObject.links[0]" (ngModelChange)="onRepresentationLinkChange()" placeholder="https://yourURL">
+                    </div>
+                    
+                    <div class="tab-pane fade" id="v-pills-multiURL" role="tabpanel" aria-labelledby="v-pills-multiURL-tab">
+                      <h4>Add URLs</h4>
+                      <div class="input-group">
+                        <input class="form-control" id="link" [(ngModel)]="qrObject.tempLink" placeholder="Add a new URL">
+                        <a class="btn btn-outline-primary mr-2" (click)="addLink()"><i class="bi bi-plus"></i></a>
+                       </div>
+                      <div class="form-group" *ngFor="let x of qrObject.links; let i = index;trackBy:trackByIdx">
+                        <div class="input-group">
+                         <input class="form-control" type="text" [(ngModel)]="qrObject.links[i]">
+                         <a class="btn btn-outline-danger mr-2"(click)="deleteQrLink(i)"><i class="bi bi-trash"></i></a>
+                        </div>
+                       </div>
+                    </div>
+
+                    <!--<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">settings</div> -->
+                  </div>
+                </div>
+
+
+            </div>
+                        <!--<app-qr *ngIf="loadQRComponent"></app-qr>-->
+            
+                           
+                          <div class="accordion" id="accordionExample">
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingZero">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseZero" aria-expanded="false" aria-controls="collapseZero">
+                                  QR/Image Options
+                                </button>
+                              </h2>
+                              <div id="collapseZero" class="accordion-collapse collapse" aria-labelledby="headingZero" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <form>
+                                    <div class="form-group">
+                                      <label for="qrSizeInput">QR Size</label>
+                                      <input [(ngModel)]="qrObject.size" (ngModelChange)="onQrChange()" [ngModelOptions]="{standalone: true}" value="200" min="200" max="1080" type="range" class="form-control-range" id="qrSizeInput">
+                                      <br>
+                                      <label for="imageUploadInput">Upload an icon</label>
+                                      <input id="imageUploadInput" class="form-control" type="file" (change)="onQRImageUploaded($event)">
+                                    </div>
+                                  </form>  
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                  Dot Options
+                                </button>
+                              </h2>
+                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <ng-container *ngIf="qrDotColorToggle; then qrSingleDotColor; else qrGradientDotColor"></ng-container>
+                                    <ng-template #qrSingleDotColor>
+                                        <div class="mb-3">
+                                          <span>Dot color</span>  
+                                          <input type="color" [(ngModel)]="qrDotColor" (ngModelChange)="onSingleDotColorChange()" class="form-control form-control-color" id="singleDotColor" title="Choose your color">
+                                        </div>
+                                    </ng-template>
+                                    <ng-template #qrGradientDotColor>
+                                        <div class="mb-3">
+                                            <span>Dot color gradient </span>
+                                              <input type="color" [(ngModel)]="qrDotColorGradient.colorStops[0].color" (ngModelChange)="onGradientDotColorChange()" class="form-control form-control-color" id="singleDotColor" title="Choose your color">
+                                              <input type="color" [(ngModel)]="qrDotColorGradient.colorStops[1].color" (ngModelChange)="onGradientDotColorChange()" class="form-control form-control-color" id="singleDotColor" title="Choose your color">
+                                              <form>
+                                                <div class="form-group">
+                                                  <label for="formControlRange">Rotation</label>
+                                                  <input [(ngModel)]="qrDotColorGradient.rotation" (ngModelChange)="onGradientDotColorChange()" [ngModelOptions]="{standalone: true}" min="0" max="360" type="range" class="form-control-range" id="formControlRange">
+                                                </div>
+                                              </form>
+                                          </div>
+                                    </ng-template>
+                                    <div class="mb-3">
+                                      <span>Color type </span>
+                                    <input type="radio" (click)="onDotColorToggleChange(true)" class="btn-check" name="options-dots-outlined" id="dots-single-color" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="dots-single-color">Single Color</label>
+                                    <span>&nbsp;</span>
+                                    <input type="radio" (click)="onDotColorToggleChange(false)" class="btn-check" name="options-dots-outlined" id="dots-gradient" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="dots-gradient">Gradient</label>
+                                    </div>
+                                    
+
+                                    <span>Dot style </span>
+                                    <select id="qrDotStyleSelect" [(ngModel)]="qrObject.options.dotsOptions.type" (ngModelChange)="onQrChange()" class="form-select" aria-label="Default select example">
+                                      <option selected value="rounded">Rounded</option>
+                                      <option value="dots">Dots</option>
+                                      <option value="classy">Classy</option>
+                                      <option value="classy-rounded">Class Rounded</option>
+                                      <option value="square">Square</option>
+                                      <option value="extra-rounded">Extra Rounded</option>
+                                    </select>
+
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                  Background options
+                                </button>
+                              </h2>
+                              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <ng-container *ngIf="qrBackgroundColorToggle; then qrSingleBackgroundColor; else qrGradientBackgroundColor"></ng-container>
+                                  <ng-template #qrSingleBackgroundColor>
+                                      <div>
+                                      <span>Background color </span>
+                                        <input type="color" [(ngModel)]="qrBackgroundColor" (ngModelChange)="onSingleBackgroundColorChange()" class="form-control form-control-color" id="singleDotColor" title="Choose your color">
+                                        
+                                      <br>
+                                    </div>
+                                  </ng-template>
+                                  <ng-template #qrGradientBackgroundColor>
+                                      <div>
+                                          <span>Background color gradient </span>
+                                            <!--<p-colorPicker [(ngModel)]="qrBackgroundColorGradient.colorStops[0].color" (ngModelChange)="onGradientBackgroundColorChange()"></p-colorPicker>
+                                            <p-colorPicker [(ngModel)]="qrBackgroundColorGradient.colorStops[1].color" (ngModelChange)="onGradientBackgroundColorChange()"></p-colorPicker>-->
+                                            <input type="color" [(ngModel)]="qrBackgroundColorGradient.colorStops[0].color" (ngModelChange)="onGradientBackgroundColorChange()" class="form-control form-control-color" id="singleDotColor" title="Choose your color">
+                                            <input type="color" [(ngModel)]="qrBackgroundColorGradient.colorStops[1].color" (ngModelChange)="onGradientBackgroundColorChange()" class="form-control form-control-color" id="singleDotColor" title="Choose your color">
+                                        
+                                            <form>
+                                              <div class="form-group">
+                                                <label for="formControlRange">Rotation</label>
+                                                <input [(ngModel)]="qrBackgroundColorGradient.rotation" (ngModelChange)="onGradientBackgroundColorChange()" [ngModelOptions]="{standalone: true}" min="0" max="360" type="range" class="form-control-range" id="formControlRange">
+                                              </div>
+                                            </form>
+                                            <br>
+                                        </div>
+                                  </ng-template>
+
+                                  <span>Color type </span>
+                                    <input type="radio" (click)="onBackgroundColorToggleChange(true)" class="btn-check" name="background-options-outlined" id="background-single-color" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="background-single-color">Single Color</label>
+                                    <span>&nbsp;</span>
+                                    <input type="radio" (click)="onBackgroundColorToggleChange(false)" class="btn-check" name="background-options-outlined" id="background-gradient" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="background-gradient">Gradient</label>
+                                    <br>
+
+
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                  Corner options
+                                </button>
+                              </h2>
+                              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <span>Corner style </span>
+                                  <select id="qrDotStyleSelect" [(ngModel)]="qrObject.options.cornersSquareOptions.type" (ngModelChange)="onQrChange()" class="form-select" aria-label="Default select example">
+                                    <option selected value="">None</option>
+                                    <option value="rounded">Rounded</option>
+                                    <option value="square">Square</option>
+                                    <option value="extra-rounded">Extra Rounded</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                  Corner Dot options
+                                </button>
+                              </h2>
+                              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <span>Corner dot style </span>
+                                  <select id="qrDotStyleSelect" [(ngModel)]="qrObject.options.cornersDotOptions.type" (ngModelChange)="onQrChange()" class="form-select" aria-label="Default select example">
+                                    <option selected value="">None</option>
+                                    <option value="dot">Dots</option>
+                                    <option value="square">Square</option>
+                                  </select></div>
+                              </div>
+                            </div>
+                            
+
+                          </div>
+
+                          <div class="container-fluid mt-3 text-center" *ngIf="qrObject.options.data">
+                            <span>Save as:</span><select id="qrFiletype" [(ngModel)]="qrObject.filetype" class="form-select mb-3" aria-label="Default select example">
+                              <option selected value="jpeg">JPEG</option>
+                              <option value="png">PNG</option>
+                              <option value="svg">SVG</option>
+                            </select>
+                            <div *ngIf="qrObject.isSavedOnBackend === false">
+                              <button (click)="createQR()" class="btn btn-primary">Create QR <i class="bi bi-upload"></i></button>
+                              <p>A download button will appear once you create the QR Code</p>
+                            </div>
+                            <button *ngIf="qrObject.isSavedOnBackend" (click)="downloadQR()" class="btn btn-primary">Download QR <i class="bi bi-download"></i></button>
+                            
+                          </div> 
+                    </div> <!--column-->
+                </div>

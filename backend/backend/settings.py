@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from datetime import timedelta
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,14 +30,21 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
+
+# URL used to access the media
+MEDIA_URL = '/'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         #'rest_framework.authentication.TokenAuthentication',
         'django_expiring_token.authentication.ExpiringTokenAuthentication',
+        #'rest_framework_simplejwt.authentication.JWTAuthentication',
+        #'rest_framework_simplejwt.authentication.JWTStatelessUserAuthentication',
     ],
     "EXCEPTION_HANDLER": "kb_backend.exceptionHandlers.authExceptionHandlers.unauthenticated",
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
-    'PAGE_SIZE': 6
+    'PAGE_SIZE': 6,
 }
 
 # Application definition
@@ -69,6 +77,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:4200",
     "http://localhost:4200"
 ]
+
+#CSRF_TRUSTED_ORIGINS = ["http://localhost:4200"]
 
 ROOT_URLCONF = 'backend.urls'
 

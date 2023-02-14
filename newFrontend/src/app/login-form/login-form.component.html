@@ -1,0 +1,62 @@
+<div class="container">
+    <h3>Login</h3>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="card form-group mt-5">
+            <div class="card-body">
+                <div class="input-group mb-2">
+                    <span class="input-group-prepend">
+                        <span class="btn btn-outline-secondary bg-white border-start-1 border-bottom-1 border-end-0 border ms-n5">
+                            <i class="bi bi-person"></i>
+                        </span>
+                    </span>
+                    <input class="form-control border-start-0 border-end-1 border" [(ngModel)]="username" placeholder="username">
+                </div>
+                
+                <div class="input-group">
+                    <span class="input-group-prepend">
+                        <span class="btn btn-outline-secondary bg-white border-start-1 border-bottom-1 border-end-0 border ms-n5">
+                            <i class="bi bi-unlock"></i>
+                        </span>
+                    </span>
+                    <input type="password" class="form-control border-start-0 border-end-1 border" [(ngModel)]="password" placeholder="Password">
+                </div>
+                
+                <div class="container-fluid text-center mt-3">
+                    <a class="btn btn-primary"(click)="login()">Login</a>      
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <!--<div class="card form-group mt-5">
+        <div class="card-body">
+            <div class="input-group mb-2">
+                <span class="input-group-prepend">
+                    <span class="btn btn-outline-secondary bg-white border-start-1 border-bottom-1 border-end-0 border ms-n5">
+                        <i class="bi bi-user"></i>
+                    </span>
+                </span>
+                <input class="form-control border-start-0 border-end-1 border" [(ngModel)]="username" placeholder="username">
+            </div>
+            
+            <div class="input-group">
+                <span class="input-group-prepend">
+                    <span class="btn btn-outline-secondary bg-white border-start-1 border-bottom-1 border-end-0 border ms-n5">
+                        <i class="bi bi-unlock-alt"></i>
+                    </span>
+                </span>
+                <input type="password" class="form-control border-start-0 border-end-1 border" [(ngModel)]="password" placeholder="Password">
+            </div>
+            
+            <div class="container-fluid text-center mt-3">
+                <a class="btn btn-primary"(click)="login()">Login</a>      
+            </div>
+            
+        </div>
+        
+    </div> -->
+    
+</div>

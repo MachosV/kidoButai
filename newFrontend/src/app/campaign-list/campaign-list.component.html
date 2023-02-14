@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div class="container" *ngIf="campaignList else elseBlock">
+    <h4>My QR Codes</h4>
+    <div class="container justify-content-center mb-2">
+        <div class="input-group mb-2">
+            <button class="btn btn-outline-secondary bg-white border-start-1 border-bottom-1 border-end-0 border"><a href="https://support.google.com/analytics/answer/9539598#find-G-ID"><span class="bi bi-search"></span></a></button>
+            <input [(ngModel)]="searchString" (input)="search(searchString)" class="form-control border" id="trackingID" placeholder="Search">
+        </div>
+
+        <div class="row">
+            <!--<ng-template ngFor let-campaign [ngForOf]="campaignList"> -->
+            <ng-template ngFor let-campaign [ngForOf]="processedCampaignList">
+                <div class="card mb-2 col-sm-12 col-md-6 col-lg-6 col-xl-4 p-1">
+                    <div class="card-img-top text-center">
+                        <div id="canvas{{campaign.id}}"></div>
+                        <app-qr-preview [id]="campaign.id" [item] = "campaign.options"></app-qr-preview>
+                        <!--<qr-code id="canvas" value="http://192.168.1.4:8000/{{campaign.representationLink}}" size="200"
+                            errorCorrectionLevel="M"></qr-code>-->
+                        <!--<app-qr-preview [representationLink]="campaign.representationLink"></app-qr-preview>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <p><b>{{campaign.name}}</b></p>
+                            <p>{{campaign.description}}</p>
+                            <a class="stretched-link" href="campaigns/{{campaign.id}}"></a>
+                        </div>
+                    </div>
+                    <div class="card-text container-fluid">
+                        <p>Created: {{campaign.create_date | date}}</p>
+                    </div>
+
+                </div>
+            </ng-template>
+            <p>Showing <b>{{processedCampaignList.length}}</b> QR Codes</p>
+            <div *ngIf="nextPage">
+                <button class="btn btn-primary" (click)="setPageToLoad(nextPage)">Next</button>
+              </div>
+              <div *ngIf="previousPage">
+                <button class="btn btn-primary" (click)="setPageToLoad(previousPage)">Previous</button>
+              </div>
+        </div>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>
+<!--<ng-template #elseBlock><p-progressBar mode="indeterminate"></p-progressBar></ng-template>-->

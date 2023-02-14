@@ -63,8 +63,6 @@ class CampaignListEndpoint(generics.ListAPIView):
         user = self.request.user
         return Campaign.objects.filter(owner=user)
 
-
-
 class CampaignUpdateEndpoint(APIView):
     def put(self,request, *args, **kwargs):
         campaignPK = kwargs.get('pk', None)
