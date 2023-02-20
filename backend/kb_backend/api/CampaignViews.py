@@ -61,7 +61,11 @@ class CampaignListEndpoint(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Campaign.objects.filter(owner=user)
+        s = self.request.query_params.get('s', None)
+        queryset = Campaign.objects.filter(owner=user)
+        if not s:
+            return queryset
+        return queryset.filter(description__icontains=s) | queryset.filter(name__icontains=s)
 
 class CampaignUpdateEndpoint(APIView):
     def put(self,request, *args, **kwargs):
