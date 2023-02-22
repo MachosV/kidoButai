@@ -1,3 +1,5 @@
 */node_modules/*
 .gitignore
 *.pyc
+*.jpg
+*.png
