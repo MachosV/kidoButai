@@ -15,29 +15,9 @@ class ImageUploader(generics.CreateAPIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, *args, **kwargs):
-      # image = request.data['image']
-      # image = PILImage.open(image)
-      # max_size = (200, 200)
-      # if image.height > 200 or image.width > 200:
-      #   image.thumbnail(max_size)
-      # image_io = BytesIO()
-      # image.save(image_io, format='JPEG')
-      # image_io.seek(0)
-
-      # uploaded_file = InMemoryUploadedFile(
-      #   file=image_io,
-      #   field_name='image',
-      #   name='image.png',
-      #   content_type='image/png',
-      #   size=len(image_io.getvalue()),
-      #   charset=None,
-      # )
+      
         image_file = request.data.get('image')
         image = PILImage.open(image_file)
-        # try:
-        #   image.verify()
-        # except:
-        #   return Response({'error': 'Invalid image format'}, status=400)
 
         if not image.format.lower() in ['png', 'jpg', 'jpeg', 'tiff', 'bmp', 'gif']:
           return Response({'error': 'Invalid image format'}, status=400)
