@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework import generics
 from PIL import Image as PILImage
 from ..serializers import ImageSerializer
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 import hashlib
