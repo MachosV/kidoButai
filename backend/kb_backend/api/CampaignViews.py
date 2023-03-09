@@ -22,7 +22,10 @@ class CampaignEndpoint(generics.RetrieveUpdateDestroyAPIView):
         options_json = base64.b64decode(options).decode('utf-8')
         # Extract the image property from the JSON string
         image_filename = json.loads(options_json).get('image', None)
-        os.remove("/home/django/django_project/mediafiles"+image_filename)
+        try:
+            os.remove("/home/django/django_project/mediafiles"+image_filename)
+        except:
+            pass
         instance.delete()
 
     def get_serializer_class(self):
