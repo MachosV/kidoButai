@@ -22,8 +22,8 @@ class CampaignEndpoint(generics.RetrieveUpdateDestroyAPIView):
         options_json = base64.b64decode(options).decode('utf-8')
         # Extract the image property from the JSON string
         image_filename = json.loads(options_json).get('image', None)
-
         file_path = 'images/' + image_filename
+        print ("i get called",file_path)
         default_storage.delete(file_path)
         instance.delete()
 
