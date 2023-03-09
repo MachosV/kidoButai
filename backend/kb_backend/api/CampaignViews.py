@@ -1,3 +1,5 @@
+import base64
+import json
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from kb_backend.serializers import CampaignSerializer,CampaignCreateSerializer, CampaignEditSerializer
@@ -5,6 +7,7 @@ from rest_framework import generics, status
 from ..models import Campaign,CampaignLink
 from rest_framework import pagination
 from rest_framework import filters
+from django.core.files.storage import default_storage
 
 class CustomPagination(pagination.CursorPagination):
     ordering = "-create_date"
@@ -12,6 +15,17 @@ class CustomPagination(pagination.CursorPagination):
 class CampaignEndpoint(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CampaignSerializer
     queryset = Campaign.objects.all()
+
+    def perform_destroy(self, instance):
+        options = instance.options
+        # Decode the base64-encoded JSON string
+        options_json = base64.b64decode(options).decode('utf-8')
+        # Extract the image property from the JSON string
+        image_filename = json.loads(options_json).get('image', None)
+
+        file_path = 'images/' + image_filename
+        default_storage.delete(file_path)
+        instance.delete()
 
     def get_serializer_class(self):
         if self.request.method=="PUT":
