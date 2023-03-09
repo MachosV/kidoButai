@@ -7,7 +7,7 @@ from rest_framework import generics, status
 from ..models import Campaign,CampaignLink
 from rest_framework import pagination
 from rest_framework import filters
-from django.core.files.storage import default_storage
+import os
 
 class CustomPagination(pagination.CursorPagination):
     ordering = "-create_date"
@@ -22,8 +22,7 @@ class CampaignEndpoint(generics.RetrieveUpdateDestroyAPIView):
         options_json = base64.b64decode(options).decode('utf-8')
         # Extract the image property from the JSON string
         image_filename = json.loads(options_json).get('image', None)
-        print ("i get called",image_filename)
-        default_storage.delete(image_filename)
+        os.remove("/home/django/django_project/mediafiles"+image_filename)
         instance.delete()
 
     def get_serializer_class(self):
