@@ -3,6 +3,7 @@ from ..models import CampaignLink,Campaign
 import random
 
 def redirectionView(request,reprLink):
+    print(reprLink)
     try:
         campaignLinks = CampaignLink.objects.filter(campaign=Campaign.objects.get(representationLink=reprLink))
     except Exception as e:
