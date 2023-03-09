@@ -21,5 +21,5 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('kb_backend.apiUrls')),
-    path('', include('kb_backend.redirectionUrls')),
+    path('r/', include('kb_backend.redirectionUrls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
