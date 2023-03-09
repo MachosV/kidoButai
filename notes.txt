@@ -1,7 +1,27 @@
-QR model
+http {
+    upstream api_backend {
+        server api-server:80;
+    }
+    upstream main_backend {
+        server main-server:80;
+    }
 
-name
-description
-qrLinks
-qrRepresentationLink
-options (base64 encoded string)
+    server {
+        listen 80;
+        server_name mydomain.com;
+
+        location /api {
+            proxy_pass http://api_backend;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+
+        location / {
+            proxy_pass http://main_backend;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}
+
+nginx.conf file

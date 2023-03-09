@@ -36,7 +36,8 @@ class ImageUploader(generics.CreateAPIView):
             file_name = default_storage.save("images/"+newImageFilename+"."+image.format.lower(), ContentFile(image_io.read()))
             file_url = default_storage.url(file_name)
             image_io.close()
-            return Response({'file_url': "http://localhost:8000"+file_url}, status=201)
+            print(file_url)
+            return Response({'file_url': file_url}, status=201)
         else:
             image_io.close()
             return Response({'error': 'No image file provided.'}, status=400)
