@@ -25,3 +25,5 @@ http {
 }
 
 nginx.conf file
+
+yMib2P8dtVG4G9M email password for useronboard@machosv.me

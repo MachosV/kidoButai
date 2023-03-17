@@ -1,6 +1,7 @@
 */node_modules/*
 .gitignore
-*.pyc
+*pyc
 *.jpg
 *.png
 *.sqlite3
+*.txt

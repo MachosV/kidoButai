@@ -1,14 +1,16 @@
-from kb_backend.api.AuthViews import AuthView
 from kb_backend.redirectionService.redirectionView import redirectionView
 from django.contrib.auth import login
 from django.urls import path
 
 from .api import CampaignViews
 from .api import AuthViews
-from .api import ViewViews
 from .api import ImageUploader
+from .api import IPNListener
+from .api import UserViews
 
 urlpatterns = [
+    path('IPNListener',IPNListener.IPNListener,name="IPNListener"),
+    path('user/create',UserViews.UserCreateEndpoint.as_view(),name="UserCreate"),
     path('images',ImageUploader.ImageUploader.as_view(),name="ImageUploader"),
     path('campaign', CampaignViews.CampaignListEndpoint.as_view() , name='CampaignListEndpoint'),
     path('campaign/create', CampaignViews.CampaignCreateEndpoint.as_view() , name='CampaignCreateEndpoint'),
