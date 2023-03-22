@@ -5,3 +5,4 @@
 *.png
 *.sqlite3
 *.txt
+config.py

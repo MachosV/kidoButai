@@ -9,7 +9,7 @@ body = 'This is a test email sent using machosv.me as an SMTP relay.'
 
 message = MIMEText(body)
 message['Subject'] = "Welcome to QRExp.pro!"
-message['From'] = "QRExp.pro"+" "+sender_email
+message['From'] = "QRExp.pro"
 message['To'] = recipient_email
 
 with smtplib.SMTP_SSL('mail.machosv.me', 465) as server:

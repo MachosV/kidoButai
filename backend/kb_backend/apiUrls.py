@@ -10,6 +10,8 @@ from .api import UserViews
 
 urlpatterns = [
     path('IPNListener',IPNListener.IPNListener,name="IPNListener"),
+    path('auth/resetPassword',AuthViews.ResetPassword.as_view(), name="ResetPassword"),
+    path('auth/requestResetPasswordId', AuthViews.RequestResetPasswordId.as_view(), name="RequestResetPasswordId"),
     path('user/create',UserViews.UserCreateEndpoint.as_view(),name="UserCreate"),
     path('images',ImageUploader.ImageUploader.as_view(),name="ImageUploader"),
     path('campaign', CampaignViews.CampaignListEndpoint.as_view() , name='CampaignListEndpoint'),
