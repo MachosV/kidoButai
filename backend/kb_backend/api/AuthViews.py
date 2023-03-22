@@ -121,7 +121,6 @@ class ChangePassword(APIView):
 
         return JsonResponse(response,status=status.HTTP_200_OK)
 
-
 class RequestResetPasswordId(APIView):
     def post(self, request):
         response = {

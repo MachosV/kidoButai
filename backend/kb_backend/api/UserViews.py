@@ -10,9 +10,9 @@ class UserCreateEndpoint(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         
         #check if invitation exists
-        invitationId = request.GET.get('inv', '')
+        #invitationId = request.GET.get('id', '')
         try:
-            invitation = Invitation.objects.get(link=invitationId)
+            invitation = Invitation.objects.get(link=request.data["invitationId"])
         except Invitation.DoesNotExist:
             return JsonResponse({
                 "message":"",

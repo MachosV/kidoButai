@@ -5,6 +5,7 @@ from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 
 from ..models.Invitation import Invitation
+from ..mailService import mailer
 
 @csrf_exempt
 def IPNListener(request):
@@ -15,12 +16,28 @@ def IPNListener(request):
 
         #transaction is valid
         #create invitation link and send email
+
         link = str(uuid.uuid4())
         # Create a new InvitationLink object
         invitation_link = Invitation(link=link)
         invitation_link.save()
 
-        
+        mail = "razgriz9@gmail.com" #MOCK!
+        subject = "Welcome to QRExp.pro!"
+        body = '''Hello and welcome to QRExp.pro!
+        Thank you for choosing us, as your QR generator tool. We promise we won't fail you!
+        Click <a href="http://localhost:4200/newUser?id='''+invitation_link.link+'''">here to register your account.
+
+        Sincerely,
+        The QRExp.pro team
+        '''
+
+        mailer.sendMail(
+            mail,
+            subject,
+            body
+        )
+
         # return response with user input
         return JsonResponse({
             "message":invitation_link.link,
