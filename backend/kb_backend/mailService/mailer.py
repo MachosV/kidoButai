@@ -4,12 +4,23 @@ from ..config import SENDER_EMAIL
 from ..config import SENDER_PASSWORD
 from ..config import SMTP_SERVER
 
-def sendMail(recipient_email,subject,body):
+import string
+
+FORGOTTEN_PASS = 0
+NEW_USER = 1
+import os
+
+def sendMail(recipient_email,subject,id):
 
     sender_email = SENDER_EMAIL
     sender_password = SENDER_PASSWORD
 
-    message = MIMEText(body)
+    if subject==FORGOTTEN_PASS:
+        subject = "QRExp - Password reset"
+        with open("kb_backend/mailService/mailTemplates/resetPassword.html", 'r') as f:
+            template = f.read()
+    template = string.Template(template)
+    message = MIMEText(template.substitute(id=str(id)),"html")
     message['Subject'] = subject
     message['From'] = "QRExp.pro"
     message['To'] = recipient_email

@@ -7,6 +7,7 @@ from django_expiring_token.authentication import ExpiringTokenAuthentication
 from rest_framework import status
 from django.contrib.auth.models import User
 import string
+from ..mailService import mailer
 
 from ..models import ResetPasswordId
 
@@ -150,7 +151,7 @@ class RequestResetPasswordId(APIView):
 
         print(resetPasswordId.username,resetPasswordId.link,resetPasswordId.is_used)
 
-        #send it to user via email
+        mailer.sendMail(resetPasswordId.username,mailer.FORGOTTEN_PASS, resetPasswordId.link)
 
         return JsonResponse(response,status = status.HTTP_200_OK)
         
@@ -212,8 +213,6 @@ class ResetPassword(APIView):
             resetPasswordId = ResetPasswordId.objects.get(link=link,is_used=False)
         except:
             return JsonResponse(response,status = status.HTTP_400_BAD_REQUEST)
-
-
 
         #change the user password to the new one
         try:
