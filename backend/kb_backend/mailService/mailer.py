@@ -1,19 +1,18 @@
 import smtplib
 from email.mime.text import MIMEText
-from ..config import SENDER_EMAIL
-from ..config import SENDER_PASSWORD
-from ..config import SMTP_SERVER
+#from ..config import SENDER_EMAIL
+#from ..config import SENDER_PASSWORD
+#from ..config import SMTP_SERVER
 
 import string
 
 FORGOTTEN_PASS = 0
 NEW_USER = 1
-import os
 
 def sendMail(recipient_email,subject,id):
 
-    sender_email = SENDER_EMAIL
-    sender_password = SENDER_PASSWORD
+    sender_email = ""#SENDER_EMAIL
+    sender_password ="" #SENDER_PASSWORD
 
     if subject==FORGOTTEN_PASS:
         subject = "QRExp - Password reset"
