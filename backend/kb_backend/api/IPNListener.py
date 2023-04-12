@@ -15,6 +15,7 @@ def IPNListener(request):
     
     data = json.loads(request.body)
     email_address = data["resource"]["subscriber"]["email_address"]
+    print("IPN ->",data["event_type"])
 
     #check what event came
     if data["event_type"] == "BILLING.SUBSCRIPTION.ACTIVATED":
