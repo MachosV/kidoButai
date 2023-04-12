@@ -6,3 +6,4 @@
 *.sqlite3
 *.txt
 config.py
+digitalocean*
