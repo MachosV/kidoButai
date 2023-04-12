@@ -11,7 +11,10 @@ from ..mailService import mailer
 def IPNListener(request):
     # check if request method is POST
     print(request)
-    return
+    return JsonResponse({
+            "message":"",
+            "error":""
+            },status=status.HTTP_200_OK)
     if request.method == 'POST':
         # get user input from request
         print(request)
