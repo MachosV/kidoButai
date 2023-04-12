@@ -10,10 +10,11 @@ from ..mailService import mailer
 @csrf_exempt
 def IPNListener(request):
     # check if request method is POST
+    print(request)
+    return
     if request.method == 'POST':
         # get user input from request
-        
-
+        print(request)
         #transaction is valid
         #create invitation link and send email
 
